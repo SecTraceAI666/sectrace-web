@@ -1,2 +1,1139 @@
-<h1>SecTrace.AI Site</h1>
-<p>Coming soon...</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B5KYGY59RJ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-B5KYGY59RJ');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecTrace — Cybersecurity Intelligence Dashboard</title>
+    <meta name="description" content="Real-time cybersecurity threat intelligence and emerging security startup tracking. Curated by SecTrace.">
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ── Reset & Base ──────────────────────────────────────── */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #09090b;
+            --bg-secondary: #111114;
+            --bg-card: #16161a;
+            --bg-card-hover: #1c1c21;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.12);
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --accent-cyan: #06b6d4;
+            --accent-cyan-dim: rgba(6, 182, 212, 0.12);
+            --accent-violet: #8b5cf6;
+            --accent-violet-dim: rgba(139, 92, 246, 0.12);
+            --accent-emerald: #10b981;
+            --gradient-brand: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            --gradient-glow-cyan: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(6, 182, 212, 0.04), transparent 40%);
+            --gradient-glow-violet: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(139, 92, 246, 0.04), transparent 40%);
+            --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--border-subtle);
+            --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border-hover);
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-pill: 100px;
+            --transition-base: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-spring: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* ── Background decoration ─────────────────────────────── */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 600px;
+            background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(6, 182, 212, 0.08), transparent),
+                        radial-gradient(ellipse 60% 40% at 80% -10%, rgba(139, 92, 246, 0.06), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── Navigation / Header ───────────────────────────────── */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(9, 9, 11, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .header-inner {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-brand);
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 14px;
+            color: white;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text {
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+        }
+
+        .logo-text span {
+            background: var(--gradient-brand);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.25rem 0.65rem;
+            border-radius: var(--radius-pill);
+            background: var(--accent-cyan-dim);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+
+        /* ── Hero ──────────────────────────────────────────────── */
+        .hero {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.25rem);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 .gradient-text {
+            background: var(--gradient-brand);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 560px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* ── Main Layout ───────────────────────────────────────── */
+        main {
+            position: relative;
+            z-index: 1;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .section-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-md);
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+        }
+
+        .section-icon.news {
+            background: var(--accent-cyan-dim);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+
+        .section-icon.startups {
+            background: var(--accent-violet-dim);
+            color: var(--accent-violet);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .section-count {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.2rem 0.55rem;
+            border-radius: var(--radius-pill);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            border: 1px solid var(--border-subtle);
+            margin-left: auto;
+        }
+
+        /* ── Card Grid ─────────────────────────────────────────── */
+        .card-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .card-grid.news-grid {
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        }
+
+        .card-grid.startup-grid {
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        }
+
+        /* ── Card Base ─────────────────────────────────────────── */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            transition:
+                transform var(--transition-spring),
+                box-shadow var(--transition-base),
+                border-color var(--transition-base),
+                background var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity var(--transition-base);
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        .news-card::before {
+            background: var(--gradient-glow-cyan);
+        }
+
+        .startup-card::before {
+            background: var(--gradient-glow-violet);
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
+            box-shadow: var(--shadow-card-hover);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        /* News-specific glow on hover */
+        .news-card:hover {
+            box-shadow: var(--shadow-card-hover), 0 0 40px -10px rgba(6, 182, 212, 0.15);
+        }
+
+        .startup-card:hover {
+            box-shadow: var(--shadow-card-hover), 0 0 40px -10px rgba(139, 92, 246, 0.15);
+        }
+
+        /* ── Card inner elements ───────────────────────────────── */
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.8rem;
+        }
+
+        .card-source {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .card-date {
+            color: var(--text-muted);
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 650;
+            line-height: 1.45;
+            letter-spacing: -0.2px;
+            color: var(--text-primary);
+        }
+
+        .card-summary {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .sentiment-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--radius-pill);
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--accent-cyan);
+            transition: color var(--transition-base), gap var(--transition-spring);
+        }
+
+        .card-link:hover {
+            color: #22d3ee;
+            gap: 0.6rem;
+        }
+
+        .startup-link {
+            color: var(--accent-violet);
+        }
+
+        .startup-link:hover {
+            color: #a78bfa;
+        }
+
+        /* ── Startup-specific ──────────────────────────────────── */
+        .startup-header {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .startup-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-md);
+            background: var(--gradient-brand);
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .startup-name {
+            font-size: 1.1rem;
+        }
+
+        .startup-location {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 0.1rem;
+        }
+
+        .startup-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 0.85rem;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 0.2rem;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .category-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+
+        .category-pill {
+            font-size: 0.68rem;
+            font-weight: 500;
+            padding: 0.2rem 0.55rem;
+            border-radius: var(--radius-pill);
+            background: var(--accent-violet-dim);
+            color: var(--accent-violet);
+            border: 1px solid rgba(139, 92, 246, 0.15);
+        }
+
+        /* ── Footer ────────────────────────────────────────────── */
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            font-size: 0.78rem;
+        }
+
+        footer span {
+            color: var(--text-secondary);
+        }
+
+        /* ── Responsive ────────────────────────────────────────── */
+        @media (max-width: 860px) {
+            .card-grid.news-grid,
+            .card-grid.startup-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 3rem 1.5rem 2rem;
+            }
+
+            main {
+                padding: 0 1rem 4rem;
+            }
+
+            .header-inner {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .hero p {
+                font-size: 0.95rem;
+            }
+
+            .card {
+                padding: 1.15rem;
+            }
+
+            .startup-stats {
+                grid-template-columns: 1fr;
+                gap: 0.35rem;
+            }
+
+            .stat {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                text-align: left;
+            }
+
+            .stat-label {
+                margin-bottom: 0;
+            }
+        }
+
+        /* ── Animations ────────────────────────────────────────── */
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: fade-in-up 0.5s ease-out both;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.03s; }
+        .card:nth-child(2) { animation-delay: 0.06s; }
+        .card:nth-child(3) { animation-delay: 0.09s; }
+        .card:nth-child(4) { animation-delay: 0.12s; }
+        .card:nth-child(5) { animation-delay: 0.15s; }
+        .card:nth-child(6) { animation-delay: 0.18s; }
+        .card:nth-child(7) { animation-delay: 0.21s; }
+        .card:nth-child(8) { animation-delay: 0.24s; }
+        .card:nth-child(9) { animation-delay: 0.27s; }
+        .card:nth-child(10) { animation-delay: 0.30s; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="#" class="logo">
+                <div class="logo-icon">ST</div>
+                <div class="logo-text">Sec<span>Trace</span></div>
+            </a>
+            <span class="header-badge">Live Intelligence</span>
+        </div>
+    </header>
+
+    <div class="hero">
+        <h1>Cybersecurity<br><span class="gradient-text">Intelligence Dashboard</span></h1>
+        <p>Curated threat intelligence and emerging security startup insights, updated continuously from vetted sources.</p>
+    </div>
+
+    <main>
+        <!-- ── News Section ────────────────────────────────────── -->
+        <section class="section" id="threat-intelligence" aria-labelledby="news-heading">
+            <div class="section-header">
+                <div class="section-icon news">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/>
+                        <path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8z"/>
+                    </svg>
+                </div>
+                <h2 class="section-title" id="news-heading">Latest Threat Intelligence</h2>
+                <span class="section-count">10 articles</span>
+            </div>
+            <div class="card-grid news-grid">
+                
+        <article class="card news-card">
+            <div class="card-meta">
+                <span class="card-source">Dark Reading</span>
+                <time class="card-date">Oct 01, 2026</time>
+            </div>
+            <h3 class="card-title">Critical Zero-Day in Ivanti VPN Exploited by State-Sponsored APT Group</h3>
+            <p class="card-summary">A newly disclosed zero-day vulnerability (CVE-2026-48112) in Ivanti Connect Secure is being actively exploited by a suspected Chinese APT cluster. CISA has issued an emergency directive requiring federal agencies to patch within 48 hours.</p>
+            <div class="card-footer">
+                <span class="sentiment-badge" style="background:#fef2f2;color:#dc2626;">Negative</span>
+                <a href="https://www.darkreading.com/threat-intelligence/ivanti-vpn-zero-day-apt" target="_blank" rel="noopener noreferrer" class="card-link">
+                    Read Full Briefing
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card news-card">
+            <div class="card-meta">
+                <span class="card-source">NIST</span>
+                <time class="card-date">Sep 28, 2026</time>
+            </div>
+            <h3 class="card-title">NIST Releases Final Post-Quantum Cryptography Standards</h3>
+            <p class="card-summary">After years of evaluation, NIST has formally published ML-KEM and ML-DSA as the primary standards for post-quantum key encapsulation and digital signatures. Organizations are urged to begin migration planning immediately.</p>
+            <div class="card-footer">
+                <span class="sentiment-badge" style="background:#ccfbf1;color:#0d9488;">Positive</span>
+                <a href="https://www.nist.gov/pqc-standards-final-2026" target="_blank" rel="noopener noreferrer" class="card-link">
+                    Read Full Briefing
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card news-card">
+            <div class="card-meta">
+                <span class="card-source">Krebs on Security</span>
+                <time class="card-date">Sep 27, 2026</time>
+            </div>
+            <h3 class="card-title">Ransomware Attack Disrupts Major US Hospital Chain for Third Consecutive Day</h3>
+            <p class="card-summary">MedStar Health&#x27;s network of 10 hospitals remains partially offline following a BlackCat/ALPHV successor ransomware attack. Patient diversions continue as the FBI and HHS investigate the breach.</p>
+            <div class="card-footer">
+                <span class="sentiment-badge" style="background:#fef2f2;color:#dc2626;">Negative</span>
+                <a href="https://krebsonsecurity.com/2026/09/medstar-ransomware-attack" target="_blank" rel="noopener noreferrer" class="card-link">
+                    Read Full Briefing
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card news-card">
+            <div class="card-meta">
+                <span class="card-source">Mandiant</span>
+                <time class="card-date">Sep 25, 2026</time>
+            </div>
+            <h3 class="card-title">Google Mandiant: AI-Generated Phishing Now Indistinguishable from Human-Crafted Attacks</h3>
+            <p class="card-summary">Mandiant&#x27;s latest M-Trends report reveals that LLM-generated phishing emails achieve the same click-through rates as expert-crafted campaigns. The report urges a shift toward behavioral-based email defense.</p>
+            <div class="card-footer">
+                <span class="sentiment-badge" style="background:#fef2f2;color:#dc2626;">Negative</span>
+                <a href="https://www.mandiant.com/resources/m-trends-2026-ai-phishing" target="_blank" rel="noopener noreferrer" class="card-link">
+                    Read Full Briefing
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card news-card">
+            <div class="card-meta">
+                <span class="card-source">The Register</span>
+                <time class="card-date">Sep 24, 2026</time>
+            </div>
+            <h3 class="card-title">European Union Enforces NIS2 Directive — First Penalties Issued</h3>
+            <p class="card-summary">Three multinational corporations have received fines totaling €47M under the NIS2 directive for inadequate incident reporting. Compliance officers across Europe scramble to review their security postures.</p>
+            <div class="card-footer">
+                <span class="sentiment-badge" style="background:#eef2ff;color:#6366f1;">Neutral</span>
+                <a href="https://www.theregister.com/2026/09/24/nis2-first-penalties" target="_blank" rel="noopener noreferrer" class="card-link">
+                    Read Full Briefing
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card news-card">
+            <div class="card-meta">
+                <span class="card-source">Socket Security</span>
+                <time class="card-date">Sep 22, 2026</time>
+            </div>
+            <h3 class="card-title">Supply Chain Compromise Found in Popular npm Package with 12M Weekly Downloads</h3>
+            <p class="card-summary">Security researchers at Socket discovered a backdoor injected into the widely-used &#x27;event-stream-next&#x27; npm package. The malicious code exfiltrates environment variables and cloud provider credentials.</p>
+            <div class="card-footer">
+                <span class="sentiment-badge" style="background:#fef2f2;color:#dc2626;">Negative</span>
+                <a href="https://socket.dev/blog/event-stream-next-compromise" target="_blank" rel="noopener noreferrer" class="card-link">
+                    Read Full Briefing
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card news-card">
+            <div class="card-meta">
+                <span class="card-source">CrowdStrike</span>
+                <time class="card-date">Sep 20, 2026</time>
+            </div>
+            <h3 class="card-title">CrowdStrike Acquires Cloud-Native SIEM Startup for $1.8B</h3>
+            <p class="card-summary">CrowdStrike announced the acquisition of LogScale competitor &#x27;SentinelStream&#x27; to bolster its Falcon platform with next-gen log analytics. The deal is expected to close in Q1 2027.</p>
+            <div class="card-footer">
+                <span class="sentiment-badge" style="background:#ccfbf1;color:#0d9488;">Positive</span>
+                <a href="https://www.crowdstrike.com/press/sentinelstream-acquisition" target="_blank" rel="noopener noreferrer" class="card-link">
+                    Read Full Briefing
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card news-card">
+            <div class="card-meta">
+                <span class="card-source">CISA</span>
+                <time class="card-date">Sep 18, 2026</time>
+            </div>
+            <h3 class="card-title">CISA Launches Free Attack Surface Management Tool for Critical Infrastructure</h3>
+            <p class="card-summary">The Cybersecurity and Infrastructure Security Agency unveiled &#x27;CyberScope,&#x27; a free ASM platform for operators of critical infrastructure. The tool provides continuous external vulnerability scanning and risk scoring.</p>
+            <div class="card-footer">
+                <span class="sentiment-badge" style="background:#ccfbf1;color:#0d9488;">Positive</span>
+                <a href="https://www.cisa.gov/cyberscope-launch" target="_blank" rel="noopener noreferrer" class="card-link">
+                    Read Full Briefing
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card news-card">
+            <div class="card-meta">
+                <span class="card-source">Palo Alto Unit 42</span>
+                <time class="card-date">Sep 16, 2026</time>
+            </div>
+            <h3 class="card-title">Kubernetes Clusters Under Siege: New Cryptojacking Campaign Targets Misconfigured RBAC</h3>
+            <p class="card-summary">A widespread cryptojacking campaign dubbed &#x27;K8sJack&#x27; is exploiting permissive RBAC configurations to deploy Monero miners across enterprise Kubernetes clusters. Over 350 clusters have been compromised globally.</p>
+            <div class="card-footer">
+                <span class="sentiment-badge" style="background:#fef2f2;color:#dc2626;">Negative</span>
+                <a href="https://unit42.paloaltonetworks.com/k8sjack-cryptojacking" target="_blank" rel="noopener noreferrer" class="card-link">
+                    Read Full Briefing
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card news-card">
+            <div class="card-meta">
+                <span class="card-source">Microsoft MSRC</span>
+                <time class="card-date">Sep 14, 2026</time>
+            </div>
+            <h3 class="card-title">Microsoft Patches 97 Vulnerabilities Including Four Actively Exploited Zero-Days</h3>
+            <p class="card-summary">October&#x27;s Patch Tuesday addresses critical RCE flaws in Exchange Server and Windows Kerberos. Two of the zero-days were used in targeted espionage campaigns attributed to a Russian threat actor.</p>
+            <div class="card-footer">
+                <span class="sentiment-badge" style="background:#eef2ff;color:#6366f1;">Neutral</span>
+                <a href="https://msrc.microsoft.com/update-guide/2026-oct" target="_blank" rel="noopener noreferrer" class="card-link">
+                    Read Full Briefing
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+            </div>
+        </section>
+
+        <!-- ── Startups Section ────────────────────────────────── -->
+        <section class="section" id="startup-watchlist" aria-labelledby="startups-heading">
+            <div class="section-header">
+                <div class="section-icon startups">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <h2 class="section-title" id="startups-heading">Startup Watchlist</h2>
+                <span class="section-count">10 companies</span>
+            </div>
+            <div class="card-grid startup-grid">
+                
+        <article class="card startup-card">
+            <div class="startup-header">
+                <div class="startup-avatar">A</div>
+                <div>
+                    <h3 class="card-title startup-name">Astra Security</h3>
+                    <span class="startup-location">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 13-9 13s-9-7-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        San Francisco, CA, United States
+                    </span>
+                </div>
+            </div>
+            <p class="card-summary">AI-powered continuous penetration testing platform that autonomously discovers, verifies, and triages vulnerabilities across web applications and cloud infrastructure.</p>
+            <div class="startup-stats">
+                <div class="stat">
+                    <span class="stat-label">Total Funding</span>
+                    <span class="stat-value">$65.0M</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Last Round</span>
+                    <span class="stat-value">Series B</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Founded</span>
+                    <span class="stat-value">2021</span>
+                </div>
+            </div>
+            <div class="category-pills"><span class="category-pill">Application Security</span><span class="category-pill">Vulnerability Management</span></div>
+            <div class="card-footer">
+                <a href="https://www.getastra.com" target="_blank" rel="noopener noreferrer" class="card-link startup-link">
+                    Visit Website
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card startup-card">
+            <div class="startup-header">
+                <div class="startup-avatar">C</div>
+                <div>
+                    <h3 class="card-title startup-name">CipherShield</h3>
+                    <span class="startup-location">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 13-9 13s-9-7-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        Austin, TX, United States
+                    </span>
+                </div>
+            </div>
+            <p class="card-summary">Post-quantum encryption middleware that lets enterprises adopt NIST-standard PQC algorithms without modifying existing application code or TLS stacks.</p>
+            <div class="startup-stats">
+                <div class="stat">
+                    <span class="stat-label">Total Funding</span>
+                    <span class="stat-value">$42.0M</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Last Round</span>
+                    <span class="stat-value">Series A</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Founded</span>
+                    <span class="stat-value">2023</span>
+                </div>
+            </div>
+            <div class="category-pills"><span class="category-pill">Data Security</span><span class="category-pill">Encryption</span></div>
+            <div class="card-footer">
+                <a href="https://www.ciphershield.io" target="_blank" rel="noopener noreferrer" class="card-link startup-link">
+                    Visit Website
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card startup-card">
+            <div class="startup-header">
+                <div class="startup-avatar">V</div>
+                <div>
+                    <h3 class="card-title startup-name">VeriTrust</h3>
+                    <span class="startup-location">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 13-9 13s-9-7-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        London, United Kingdom
+                    </span>
+                </div>
+            </div>
+            <p class="card-summary">Zero-trust identity fabric that unifies workforce, customer, and machine identities with continuous adaptive risk-based authentication.</p>
+            <div class="startup-stats">
+                <div class="stat">
+                    <span class="stat-label">Total Funding</span>
+                    <span class="stat-value">$88.0M</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Last Round</span>
+                    <span class="stat-value">Series B</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Founded</span>
+                    <span class="stat-value">2022</span>
+                </div>
+            </div>
+            <div class="category-pills"><span class="category-pill">Zero Trust</span><span class="category-pill">Identity Access Management</span></div>
+            <div class="card-footer">
+                <a href="https://www.veritrust.dev" target="_blank" rel="noopener noreferrer" class="card-link startup-link">
+                    Visit Website
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card startup-card">
+            <div class="startup-header">
+                <div class="startup-avatar">N</div>
+                <div>
+                    <h3 class="card-title startup-name">NeuralDefense</h3>
+                    <span class="startup-location">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 13-9 13s-9-7-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        Tel Aviv, Israel
+                    </span>
+                </div>
+            </div>
+            <p class="card-summary">Adversarial ML defense platform that protects production AI models from prompt injection, data poisoning, and model extraction attacks in real time.</p>
+            <div class="startup-stats">
+                <div class="stat">
+                    <span class="stat-label">Total Funding</span>
+                    <span class="stat-value">$31.0M</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Last Round</span>
+                    <span class="stat-value">Series A</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Founded</span>
+                    <span class="stat-value">2023</span>
+                </div>
+            </div>
+            <div class="category-pills"><span class="category-pill">Ai Security</span><span class="category-pill">Threat Intelligence</span></div>
+            <div class="card-footer">
+                <a href="https://www.neuraldefense.ai" target="_blank" rel="noopener noreferrer" class="card-link startup-link">
+                    Visit Website
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card startup-card">
+            <div class="startup-header">
+                <div class="startup-avatar">C</div>
+                <div>
+                    <h3 class="card-title startup-name">CloudCage</h3>
+                    <span class="startup-location">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 13-9 13s-9-7-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        Berlin, Germany
+                    </span>
+                </div>
+            </div>
+            <p class="card-summary">Runtime cloud workload protection that uses eBPF-based sensors for zero-overhead detection and response across Kubernetes, serverless, and VM environments.</p>
+            <div class="startup-stats">
+                <div class="stat">
+                    <span class="stat-label">Total Funding</span>
+                    <span class="stat-value">$55.0M</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Last Round</span>
+                    <span class="stat-value">Series B</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Founded</span>
+                    <span class="stat-value">2022</span>
+                </div>
+            </div>
+            <div class="category-pills"><span class="category-pill">Cloud Security</span><span class="category-pill">Runtime Protection</span></div>
+            <div class="card-footer">
+                <a href="https://www.cloudcage.io" target="_blank" rel="noopener noreferrer" class="card-link startup-link">
+                    Visit Website
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card startup-card">
+            <div class="startup-header">
+                <div class="startup-avatar">S</div>
+                <div>
+                    <h3 class="card-title startup-name">SupplyGraph</h3>
+                    <span class="startup-location">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 13-9 13s-9-7-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        New York, NY, United States
+                    </span>
+                </div>
+            </div>
+            <p class="card-summary">Software supply chain security platform that maps dependency graphs, generates SBOMs, and continuously monitors for compromised packages across all major ecosystems.</p>
+            <div class="startup-stats">
+                <div class="stat">
+                    <span class="stat-label">Total Funding</span>
+                    <span class="stat-value">$28.0M</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Last Round</span>
+                    <span class="stat-value">Seed</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Founded</span>
+                    <span class="stat-value">2023</span>
+                </div>
+            </div>
+            <div class="category-pills"><span class="category-pill">Supply Chain Security</span><span class="category-pill">Devsecops</span></div>
+            <div class="card-footer">
+                <a href="https://www.supplygraph.com" target="_blank" rel="noopener noreferrer" class="card-link startup-link">
+                    Visit Website
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card startup-card">
+            <div class="startup-header">
+                <div class="startup-avatar">S</div>
+                <div>
+                    <h3 class="card-title startup-name">SentinelOT</h3>
+                    <span class="startup-location">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 13-9 13s-9-7-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        Singapore, Singapore
+                    </span>
+                </div>
+            </div>
+            <p class="card-summary">Passive network monitoring and anomaly detection for operational technology (OT) and industrial control systems, protecting critical infrastructure without production disruption.</p>
+            <div class="startup-stats">
+                <div class="stat">
+                    <span class="stat-label">Total Funding</span>
+                    <span class="stat-value">$73.0M</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Last Round</span>
+                    <span class="stat-value">Series B</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Founded</span>
+                    <span class="stat-value">2021</span>
+                </div>
+            </div>
+            <div class="category-pills"><span class="category-pill">Iot Ot Security</span><span class="category-pill">Network Security</span></div>
+            <div class="card-footer">
+                <a href="https://www.sentinelot.com" target="_blank" rel="noopener noreferrer" class="card-link startup-link">
+                    Visit Website
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card startup-card">
+            <div class="startup-header">
+                <div class="startup-avatar">P</div>
+                <div>
+                    <h3 class="card-title startup-name">PhishZero</h3>
+                    <span class="startup-location">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 13-9 13s-9-7-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        Toronto, ON, Canada
+                    </span>
+                </div>
+            </div>
+            <p class="card-summary">AI-native email security gateway that uses multimodal analysis (text, images, URLs, sender behavior) to detect and neutralize phishing with near-zero false positives.</p>
+            <div class="startup-stats">
+                <div class="stat">
+                    <span class="stat-label">Total Funding</span>
+                    <span class="stat-value">$15.0M</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Last Round</span>
+                    <span class="stat-value">Seed</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Founded</span>
+                    <span class="stat-value">2024</span>
+                </div>
+            </div>
+            <div class="category-pills"><span class="category-pill">Email Security</span><span class="category-pill">Ai Security</span></div>
+            <div class="card-footer">
+                <a href="https://www.phishzero.io" target="_blank" rel="noopener noreferrer" class="card-link startup-link">
+                    Visit Website
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card startup-card">
+            <div class="startup-header">
+                <div class="startup-avatar">R</div>
+                <div>
+                    <h3 class="card-title startup-name">RiskLens AI</h3>
+                    <span class="startup-location">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 13-9 13s-9-7-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        Zurich, Switzerland
+                    </span>
+                </div>
+            </div>
+            <p class="card-summary">Cyber risk quantification engine that translates technical vulnerabilities into financial impact metrics, enabling boards and insurers to make data-driven security investment decisions.</p>
+            <div class="startup-stats">
+                <div class="stat">
+                    <span class="stat-label">Total Funding</span>
+                    <span class="stat-value">$50.0M</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Last Round</span>
+                    <span class="stat-value">Series A</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Founded</span>
+                    <span class="stat-value">2022</span>
+                </div>
+            </div>
+            <div class="category-pills"><span class="category-pill">Grc</span><span class="category-pill">Cyber Insurance</span></div>
+            <div class="card-footer">
+                <a href="https://www.risklensai.com" target="_blank" rel="noopener noreferrer" class="card-link startup-link">
+                    Visit Website
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="card startup-card">
+            <div class="startup-header">
+                <div class="startup-avatar">H</div>
+                <div>
+                    <h3 class="card-title startup-name">HardenCI</h3>
+                    <span class="startup-location">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 13-9 13s-9-7-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        Seattle, WA, United States
+                    </span>
+                </div>
+            </div>
+            <p class="card-summary">DevSecOps platform that automatically discovers CI/CD misconfigurations, enforces pipeline-as-code policies, and provides runtime attestation for software artifacts.</p>
+            <div class="startup-stats">
+                <div class="stat">
+                    <span class="stat-label">Total Funding</span>
+                    <span class="stat-value">$12.0M</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Last Round</span>
+                    <span class="stat-value">Seed</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Founded</span>
+                    <span class="stat-value">2024</span>
+                </div>
+            </div>
+            <div class="category-pills"><span class="category-pill">Devsecops</span><span class="category-pill">Supply Chain Security</span></div>
+            <div class="card-footer">
+                <a href="https://www.hardenci.dev" target="_blank" rel="noopener noreferrer" class="card-link startup-link">
+                    Visit Website
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                </a>
+            </div>
+        </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Generated by <span>SecTrace</span> &middot; October 02, 2026 at 09:25 PM</p>
+        <p style="margin-top:0.4rem;">Contact: <a href="mailto:sectrace.ai@gmail.com" style="color:var(--accent-cyan);text-decoration:none;">sectrace.ai@gmail.com</a></p>
+    </footer>
+
+    <script>
+        /* Subtle mouse-tracking glow effect on cards */
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+                card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+            });
+        });
+    </script>
+</body>
+</html>
